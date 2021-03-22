@@ -2,9 +2,9 @@
     Script that converts set of MIDI files into dictionary mapping from path of each file to the list of notes in it.
     The dictionary is saved in pickle format, so it can be easily used further without the need to redo the pre-processing again.
     This script takes advantage of concurrency in Python to speed up the runtime.
-
 '''
 
+import os
 import glob
 import pickle
 import time
@@ -37,13 +37,34 @@ def extract_notes(path):
 
     return notes
 
+def get_filepaths_by_extension(path, ext):
+
+    '''
+        Get list of all filepaths with a specific extension within the given directory and all its subdirectories
+    '''
+    paths = []
+
+    for root, dirs, files in os.walk(path):
+        for file in files:
+            #append the file name to the list
+            new_path = os.path.join(root,file)
+            if new_path[-len(ext):].lower() == ext:
+                paths.append(new_path)
+
+    paths = [path.replace('\\','/') for path in paths]
+
+    return paths
+
 def main():
-    """ Get all the notes and chords from the midi files"""
+
+    ''' Get all the notes and chords from the midi files'''
 
     t1 = time.perf_counter()
+
     #get paths
-    paths = glob.glob(r"data\classical_composers\midi\*\*.mid")
-    paths = [path.replace('\\','/') for path in paths]
+    paths = get_filepaths_by_extension(path ='data/', ext = '.mid') #robuster way than the glob but not as elegant
+    # paths = glob.glob(r"data\classical_composers\midi\*\*.mid")  
+    # paths = [path.replace('\\','/') for path in paths]
 
     print(f'Converting {len(paths)} MIDI files into text format:')
     time.sleep(1)
