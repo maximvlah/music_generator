@@ -5,7 +5,7 @@
 '''
 
 import os
-import glob
+# import glob
 import pickle
 import time
 import concurrent
@@ -13,9 +13,10 @@ from tqdm import tqdm
 from music21 import converter, instrument, note, chord
 
 def extract_notes(path):
-    ''' Extract notes from a single MIDI file'''
+    ''' 
+        Extract notes from a single MIDI file
+    '''
     notes = []
-    # print("Parsing %s" % filepath)
 
     midi = converter.parse(path)
 
@@ -33,12 +34,10 @@ def extract_notes(path):
         elif isinstance(element, chord.Chord):
             notes.append('.'.join(str(n) for n in element.normalOrder))
             
-    print(f'"{path}" completed')
-
+    # print(f'"{path}" completed')
     return notes
 
 def get_filepaths_by_extension(path, ext):
-
     '''
         Get list of all filepaths with a specific extension within the given directory and all its subdirectories
     '''
@@ -56,11 +55,11 @@ def get_filepaths_by_extension(path, ext):
     return paths
 
 def main():
-
-    ''' Get all the notes and chords from the midi files'''
+    ''' 
+        Get all the notes and chords from the midi files
+    '''
 
     t1 = time.perf_counter()
-
     #get paths
     paths = get_filepaths_by_extension(path ='data/', ext = '.mid') #robuster way than the glob but not as elegant
     # paths = glob.glob(r"data\classical_composers\midi\*\*.mid")  
