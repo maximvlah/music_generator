@@ -64,7 +64,6 @@ def main():
     paths = get_filepaths_by_extension(path ='data/', ext = '.mid') #robuster way than the glob but not as elegant
     # paths = glob.glob(r"data\classical_composers\midi\*\*.mid")  
     # paths = [path.replace('\\','/') for path in paths]
-
     print(f'Converting {len(paths)} MIDI files into text format:')
     time.sleep(1)
 
